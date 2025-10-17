@@ -186,7 +186,7 @@ require('which-key').add({
 })
 
 -- Treesitter setup
-local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query'}
+local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query', 'python'}
 
 if vim.fn.has('nvim-0.11') == 1 then
   require('nvim-treesitter').install(ts_parsers)
@@ -248,3 +248,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('pyright')
+
+
+local starter = require('mini.starter')
+starter.setup({
+  evaluate_single = true,
+  items = {
+    starter.sections.builtin_actions(),
+    starter.sections.recent_files(10, false),
+    starter.sections.recent_files(10, true),
+    -- Use this if you set up 'mini.sessions'
+    -- starter.sections.sessions(5, true)
+  },
+  content_hooks = {
+    starter.gen_hook.adding_bullet(),
+    starter.gen_hook.indexing('all', { 'Builtin actions' }),
+    starter.gen_hook.padding(3, 2),
+  },
+})
