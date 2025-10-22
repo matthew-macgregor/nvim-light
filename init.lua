@@ -2,6 +2,23 @@
 -- ==                           EDITOR SETTINGS                            == --
 -- ========================================================================== --
 
+
+-- Function to configure tab/space behavior
+-- @param use_tabs bool: Whether to use tabs (true) or spaces (false)
+-- @param width number: The width of indentation/distance between tab stops
+function configure_indentation(use_tabs, width)
+  if use_tabs then
+    vim.opt.expandtab = false
+    vim.opt.tabstop = width -- For visual appearance of tab characters
+    vim.opt.softtabstop = width -- For max jump distance of manual tabs
+    vim.opt.shiftwidth = 0 -- Use tabs indentation
+  else
+    vim.opt.expandtab = true
+    vim.opt.tabstop = width -- For max jump distance of manual tabs
+    vim.opt.shiftwidth = width -- For indentation
+  end
+end
+
 -- Learn more about Neovim lua api
 -- https://neovim.io/doc/user/lua-guide.html
 -- https://vonheikemen.github.io/devlog/tools/build-your-first-lua-config-for-neovim/
@@ -10,13 +27,25 @@ vim.o.number = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.hlsearch = false
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
+-- vim.o.tabstop = 2
+-- vim.o.shiftwidth = 2
 vim.o.showmode = false
 vim.o.termguicolors = true
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 vim.o.signcolumn = 'yes'
+vim.o.colorcolumn = '79'
+-- Sets how neovim will display certain whitespace characters in the editor.
+--  See `:help 'list'`
+--  and `:help 'listchars'`
+--
+--  Notice listchars is set using `vim.opt` instead of `vim.o`.
+--  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
+--   See `:help lua-options`
+--   and `:help lua-options-guide`
+vim.o.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+configure_indentation(true, 4)
 
 -- Space as leader key
 vim.g.mapleader = ' '
